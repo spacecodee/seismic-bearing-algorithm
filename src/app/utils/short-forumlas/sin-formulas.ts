@@ -12,6 +12,14 @@ export class SinFormulas {
     return Math.sin(alfa + delta);
   }
 
+  public static getSinExponentAlfaPlusDelta(exponent: number, alfa: number, delta: number): number {
+    return Math.pow(Math.sin(alfa + delta), exponent);
+  }
+
+  public static getSinAlfaMultiplySinAlfaPrime(alfa: number, alfaPrime: number): number {
+    return Math.sin(alfa) * Math.sin(alfaPrime);
+  }
+
   public static getSinAlfaPlusAlfaPrime(alfa: number, alfaPrime: number): number {
     return Math.sin(alfa + alfaPrime);
   }

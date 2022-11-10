@@ -4,6 +4,10 @@ export class CosFormulas {
     return Math.cos(alfa + delta);
   }
 
+  public static getCosAlfaPrimeMinusPhi(alfa: number, phi: number): number {
+    return Math.cos(alfa - phi);
+  }
+
   public static getCosAlfa(alfa: number): number {
     return Math.cos(alfa);
   }

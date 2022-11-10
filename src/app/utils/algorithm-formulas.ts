@@ -5,16 +5,15 @@ import {TanFormulas} from "./short-forumlas/tan-formulas";
 
 export class AlgorithmFormulas {
 
-  static getFormulaF1(alfa: number, alfaPrime: number, phi: number): number {
-    let sinAlfa = SinFormulas.getSinAlfa(alfa);
-    let sinAlfaPrime = SinFormulas.getSinAlfaPrime(alfaPrime);
+  public static getFormulaFunction1(alfa: number, alfaPrime: number, phi: number): number {
+    let sinAlfaMultiplySinAlfaPrime = SinFormulas.getSinAlfaMultiplySinAlfaPrime(alfa, alfaPrime);
     let sinAlfaPlusAlfaPrime = SinFormulas.getSinAlfaPlusAlfaPrime(alfa, alfaPrime);
     let sinAlfaPrimeMinusPhi = SinFormulas.getSinAlfaPrimeMinusPhi(alfaPrime, phi);
 
-    return ((sinAlfa * sinAlfaPrime) / sinAlfaPlusAlfaPrime) * sinAlfaPrimeMinusPhi;
+    return (sinAlfaMultiplySinAlfaPrime / sinAlfaPlusAlfaPrime) * sinAlfaPrimeMinusPhi;
   }
 
-  static getFormulaF2(alfa: number, alfaPrime: number, delta: number, phi: number): number {
+  public static getFormulaFunction2(alfa: number, alfaPrime: number, delta: number, phi: number): number {
     let sinAlfaPrimeQuadratic = SinFormulas.getSinAlfaPrimeExponent(alfaPrime, 2);
     let sinAlfaPlusAlfaPrimeQuadratic = SinFormulas.getSinAlfaPlusAlfaPrimeExponent(alfa, alfaPrime, 2);
     let sinAlfaPlusDelta = SinFormulas.getSinAlfaPlusDelta(alfa, delta);
@@ -33,7 +32,7 @@ export class AlgorithmFormulas {
     return oneAndSecondAndThirdSide * fourSide;
   }
 
-  static getFormulaF3(alfa: number, alfaPrime: number, delta: number, phi: number): number {
+  public static getFormulaFunction3(alfa: number, alfaPrime: number, delta: number, phi: number): number {
     let sinAlfaPrimeQuadratic = SinFormulas.getSinAlfaPrimeExponent(alfaPrime, 2);
     let sinAlfaPlusAlfaPrimeQuadratic = SinFormulas.getSinAlfaPlusAlfaPrimeExponent(alfa, alfaPrime, 2);
     let cosAbsolutAllMinusPhi = CosFormulas.getCosAbsolutAlfaPlusAlfaPrimeMinusPhiMinusPiHalfAllMinusPhi(alfa, alfaPrime, phi);
@@ -51,12 +50,12 @@ export class AlgorithmFormulas {
     let oneAndSecondSide = (sinAlfaPrimeQuadratic / sinAlfaPlusAlfaPrimeQuadratic)
       * (cosAbsolutAllMinusPhi / cosPhi);
     let thirdSide = (cubicExponential * ((3 * tanPhi * cosAlfaPlusDelta + sinAlfaPlusDelta) / equalOne))
-      * ((3 * tanPhi * cosAlfa + sinAlfa) / equalOne);
+      - ((3 * tanPhi * cosAlfa + sinAlfa) / equalOne);
 
     return oneAndSecondSide * thirdSide;
   }
 
-  static getFormulaF4(alfa: number, alfaPrime: number, delta: number, phi: number): number {
+  public static getFormulaFunction4(alfa: number, alfaPrime: number, delta: number, phi: number): number {
     let sinAlfaPrime = SinFormulas.getSinAlfaPrime(alfaPrime);
     let sinAlfaPlusAlfaPrime = SinFormulas.getSinAlfaPlusAlfaPrime(alfa, alfaPrime);
     let cosAlfaPlusDelta = CosFormulas.getCosAlfaPlusDelta(alfa, delta);
