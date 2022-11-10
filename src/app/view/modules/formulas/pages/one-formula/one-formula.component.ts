@@ -3,9 +3,11 @@ import {SinFormulas} from "../../../../../utils/short-forumlas/sin-formulas";
 import {CosFormulas} from "../../../../../utils/short-forumlas/cos-formulas";
 import {AlgorithmFormulas} from "../../../../../utils/algorithm-formulas";
 import {AlgorithmFormulasPrime} from "../../../../../utils/algorithm-formulas-prime";
-import {OneFormulaConstrains} from "../../../../../utils/formulas/one-formula-constrains";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {MinimizationAlfaAPrimeDeltaPhiDto} from "../../../../../core/dto/minimization-alfa-aprime-delta-phi-dto";
+import {MinimizationErrorConstrain} from "../../../../../core/dto/minimization-error-constrain";
+import {SymbolsRender} from "../../../../../utils/simbols/symbols-render";
+import {OneFormulaConstrainsService} from "../../../../../service/one-formula/one-formula-constrains.service";
 
 @Component({
   selector: 'app-one-formula',
@@ -14,13 +16,9 @@ import {MinimizationAlfaAPrimeDeltaPhiDto} from "../../../../../core/dto/minimiz
 })
 export class OneFormulaComponent implements OnInit {
 
-  minimizationAlgorithm: FormGroup;
-  minimizationAlfaAPrimeDeltaPhi: MinimizationAlfaAPrimeDeltaPhiDto = {
-    alfaPrime: 0,
-    phi: 0,
-    delta: 0,
-    alfa: 0,
-  };
+  minimizationForm: FormGroup;
+  minimizationDto = new MinimizationAlfaAPrimeDeltaPhiDto();
+  errorConstraint = new MinimizationErrorConstrain();
 
   //direct interaction
   sigmaCValue: number = 0;
@@ -35,36 +33,51 @@ export class OneFormulaComponent implements OnInit {
   phiValue: number = 0;
   khValue: number = 0;
 
+  symbolsBold = SymbolsRender.getSymbolsBold();
   resultFormula: number = 0;
-  constrainsValidation: boolean = false;
 
-  constructor(private formBuilder: FormBuilder) {
-    this.minimizationAlgorithm = this.formBuilder.group({
-      alfa: new FormControl('', [Validators.required]),
-      alfaPrime: new FormControl('', [Validators.required]),
+  constructor(private formBuilder: FormBuilder, private constrainsService: OneFormulaConstrainsService) {
+    this.minimizationForm = this.formBuilder.group({
+      alpha: new FormControl('', [Validators.required]),
+      alphaPrime: new FormControl('', [Validators.required]),
       delta: new FormControl('', [Validators.required]),
       phi: new FormControl('', [Validators.required]),
+      kh: new FormControl('', [Validators.required]),
     });
   }
 
   ngOnInit(): void {
+
+  }
+
+  hasError(): boolean {
+    return this.errorConstraint.alfaConstrain || this.errorConstraint.alfaPrimeConstrain
+      || this.errorConstraint.deltaConstrain || this.errorConstraint.phiConstrain
+      || this.errorConstraint.piConstraint || this.errorConstraint.alfaAndDeltaConstrain
+      || this.errorConstraint.sinKhCosConstrain;
+  }
+
+  setDtoValues(): void {
+    this.minimizationDto.alpha = this.minimizationForm.get('alpha')?.value;
+    this.minimizationDto.alphaPrime = this.minimizationForm.get('alphaPrime')?.value;
+    this.minimizationDto.delta = this.minimizationForm.get('delta')?.value;
+    this.minimizationDto.phi = this.minimizationForm.get('phi')?.value;
+    this.minimizationDto.kh = this.minimizationForm.get('kh')?.value;
   }
 
   //full formula
   failureMechanismsM1(): void {
-    if (!OneFormulaConstrains.applyAlfaConstrain(this.alfaValue) && !OneFormulaConstrains.applyDeltaConstrain(this.deltaValue)
-      && !OneFormulaConstrains.applyPhiConstrain(this.phiValue)
-      && !OneFormulaConstrains.applyAlfaPrimeConstrain(this.alfaValue, this.alfaPrimeValue)) {
-      this.constrainsValidation = true;
-      return;
+    if (this.minimizationForm.valid) {
+      this.setDtoValues();
+      this.validateConstrains();
+
+      let topFormula = (this.sigmaCValue * this.getF1()) - (0.5 * this.beta0Value * this.gammaValue * this.getF2())
+        - (this.loadQ0Value * this.getF3());
+      let bottomFormula = SinFormulas.getSinAlfaPrimeMinusPhi(this.alfaPrimeValue, this.phiValue)
+        + (this.khValue * CosFormulas.getCosAlfaPrimeMinusPhi(this.alfaPrimeValue, this.phiValue));
+
+      this.resultFormula = topFormula / bottomFormula;
     }
-
-    let topFormula = (this.sigmaCValue * this.getF1()) - (0.5 * this.beta0Value * this.gammaValue * this.getF2())
-      - (this.loadQ0Value * this.getF3());
-    let bottomFormula = SinFormulas.getSinAlfaPrimeMinusPhi(this.alfaPrimeValue, this.phiValue)
-      + (this.khValue * CosFormulas.getCosAlfaPrimeMinusPhi(this.alfaPrimeValue, this.phiValue));
-
-    this.resultFormula = topFormula / bottomFormula;
   }
 
   //formula 1
@@ -88,5 +101,22 @@ export class OneFormulaComponent implements OnInit {
   getF3(): number {
     return AlgorithmFormulas.getFormulaFunction4(this.alfaValue, this.alfaPrimeValue, this.deltaValue, this.phiValue)
       + (this.khValue * AlgorithmFormulasPrime.getFormulaFuntion4Prime(this.alfaValue, this.alfaPrimeValue, this.deltaValue, this.phiValue));
+  }
+
+  private validateConstrains(): void {
+    this.constrainsService.applyAlfaConstrain(this.minimizationDto.alpha)
+      .subscribe(data => this.errorConstraint.alfaConstrain = !data);
+    this.constrainsService.applyDeltaConstrain(this.minimizationDto.delta)
+      .subscribe(data => this.errorConstraint.deltaConstrain = !data);
+    this.constrainsService.applyPhiConstrain(this.minimizationDto.phi)
+      .subscribe(data => this.errorConstraint.phiConstrain = !data);
+    this.constrainsService.applyAlfaPrimeConstrain(this.minimizationDto.phi, this.minimizationDto.alphaPrime)
+      .subscribe(data => this.errorConstraint.alfaPrimeConstrain = !data);
+    this.constrainsService.applyPiConstraint(this.minimizationDto.alpha, this.minimizationDto.alphaPrime)
+      .subscribe(data => this.errorConstraint.piConstraint = !data);
+    this.constrainsService.applyAlfaAndDeltaConstrain(this.minimizationDto.phi, this.minimizationDto.alpha, this.minimizationDto.delta)
+      .subscribe(data => this.errorConstraint.alfaAndDeltaConstrain = !data);
+    this.constrainsService.applyConstrainSinKhCos(this.minimizationDto.alphaPrime, this.minimizationDto.phi, this.minimizationDto.kh)
+      .subscribe(data => this.errorConstraint.sinKhCosConstrain = !data);
   }
 }

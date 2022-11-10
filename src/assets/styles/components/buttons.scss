@@ -31,13 +31,12 @@ button {
 }
 
 .btn__outline {
-  border-radius: 5rem;
+  border-radius: .5rem;
   padding: .7rem 2rem;
   font-weight: $font-bold;
-  background: $tertiary-color;
+  background: none;
   color: $primary-color;
-  border: .1rem solid $primary-opacity-color;
-  box-shadow: .2rem .2rem .5rem -.3rem rgba(0, 0, 0, 0.38);
+  border: .2rem solid $primary-color;
 }
 
 .btn__flat {
@@ -69,6 +68,7 @@ button {
 .btn__outline:hover {
   background: $secondary-color;
   color: $tertiary-color;
+  border: .2rem solid $secondary-color;
 }
 
 .btn__flat:hover {

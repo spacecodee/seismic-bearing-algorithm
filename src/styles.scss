@@ -5,6 +5,8 @@
 //fonts
 @import './assets/styles/settings/variables';
 @import './assets/styles/settings/text-type';
+@import './assets/styles/components/fields';
+@import './assets/styles/components/buttons';
 
 *,
 *:before,
@@ -31,6 +33,10 @@
 }
 
 html, body {
+  height: 100%;
+}
+
+html, body {
   font-family: $poppins-font-family;
   font-weight: 400;
   font-size: 65.5%;
@@ -42,6 +48,7 @@ body {
   min-height: 100vh;
   margin: 0 auto;
   background: $background-all-color;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 img {
@@ -49,18 +56,8 @@ img {
   height: auto;
 }
 
-h1, h2, h3, h4, p {
+h1, h2, h3, h4, p, li {
   font-family: $poppins-font-family;
-}
-
-footer {
-  text-align: center;
-  font-weight: $font-normal;
-
-  span {
-    font-weight: $font-medium;
-    color: $secondary-color;
-  }
 }
 
 .container {
@@ -68,34 +65,39 @@ footer {
   height: auto;
 }
 
-.card__glass {
-  background: rgba(255, 255, 255, 0.4);
-  box-shadow: 0 .8rem 3.2rem 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(1.5rem);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: .5rem;
+//forms
+.form-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
 }
 
-.card__category {
-  text-align: center;
-  background-color: $secondary-opacity-color;
-  border-radius: 1rem;
-  padding: 0 1rem;
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 
-  p {
-    font-weight: $font-medium;
+.form-group-row {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.ul-margin {
+  margin: 1rem 1.5rem;
+}
+
+.container-error {
+  background: #e74a4a;
+  color: $tertiary-color;
+  padding: 1rem;
+  border-radius: 1rem;
+
+  h3 {
+    font-size: 1.5rem;
     color: $tertiary-color;
     margin: 0;
   }
 }
-
-.img__glass {
-  background: rgba(255, 255, 255, 0.55);
-  box-shadow: 0 .8rem 3.2rem 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(2rem);
-  border-radius: 1rem;
-  border: .1rem solid rgba(255, 255, 255, 0.18);
-}
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

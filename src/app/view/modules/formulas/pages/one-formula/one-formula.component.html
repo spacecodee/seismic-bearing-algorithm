@@ -1,1 +1,114 @@
-<p>one-formula works!</p>
+<div class="container">
+  <h1>Mecanismo de fallo de tipo Prandtl generalizado (M1)</h1>
+
+  <div>
+    <img src="./assets/images/one-formula.png" alt="One formula">
+  </div>
+
+  <section>
+    <h2>Para poder ingresar datos debes de tener en cuenta las siguientes restricciones</h2>
+
+    <ul class="ul-margin">
+      <li>El valor de
+        <span [innerHTML]="symbolsBold.alpha"></span>
+        debe ser mayor que <strong>0</strong>
+      </li>
+      <li>El valor de
+        <span [innerHTML]="symbolsBold.delta"></span>
+        debe ser mayor que <strong>0</strong>
+      </li>
+      <li>El valor de
+        <span [innerHTML]="symbolsBold.phi"></span>
+        debe ser mayor que 0 y menor que
+        <span [innerHTML]="symbolsBold.pi"></span>/2
+      </li>
+      <li>El valor de
+        <span [innerHTML]="symbolsBold.phi"></span>
+        debe ser menor que
+        <span [innerHTML]="symbolsBold.alphaPrime"></span>
+      </li>
+      <li>La suma de
+        <span [innerHTML]="symbolsBold.alpha"></span> y
+        <span [innerHTML]="symbolsBold.alphaPrime"></span>
+        debe ser menor que
+        <span [innerHTML]="symbolsBold.pi"></span>
+      </li>
+      <li>La suma de
+        <span [innerHTML]="symbolsBold.alpha"></span> y
+        <span [innerHTML]="symbolsBold.delta"></span>
+        debe ser mayor que
+        <span [innerHTML]="symbolsBold.pi"></span>/2 +
+        <span [innerHTML]="symbolsBold.phi"></span>
+        y menor que
+        <span [innerHTML]="symbolsBold.pi"></span>
+      </li>
+      <li>
+        El seno de
+        <span [innerHTML]="symbolsBold.alphaPrime"></span> -
+        <span [innerHTML]="symbolsBold.phi"></span> +
+        <strong>K<sub>h</sub></strong> *
+        coseno de
+        <span [innerHTML]="symbolsBold.alphaPrime"></span> -
+        <span [innerHTML]="symbolsBold.phi"></span>
+        debe ser mayor que <strong>0</strong>
+      </li>
+    </ul>
+    <form [formGroup]="this.minimizationForm" (ngSubmit)="this.failureMechanismsM1()" class="form-column">
+      <div class="form-group-row">
+        <div class="form-group">
+          <label for="alpha">Ingresa el valor de <strong>&alpha;</strong>:</label>
+          <input type="number" id="alpha"
+                 placeholder="Valor de Alfa"
+                 formControlName="alpha"
+                 autocomplete="off"/>
+        </div>
+
+        <div class="form-group">
+          <label for="alphaPrime">Ingresa el valor de <strong>&alpha;'</strong>:</label>
+          <input type="number" id="alphaPrime"
+                 placeholder="Valor de Alfa Prima"
+                 formControlName="alphaPrime"
+                 autocomplete="off"/>
+        </div>
+
+        <div class="form-group">
+          <label for="delta">Ingresa el valor de <strong>&delta;</strong>:</label>
+          <input type="number" id="delta"
+                 placeholder="Valor de Delta"
+                 formControlName="delta"
+                 autocomplete="off"/>
+        </div>
+
+        <div class="form-group">
+          <label for="phi">Ingresa el valor de <strong>&phi;</strong>:</label>
+          <input type="number" id="phi"
+                 placeholder="Valor de Phi"
+                 formControlName="phi"
+                 autocomplete="off"/>
+        </div>
+
+        <div class="form-group">
+          <label for="kh">Ingresa el valor de <strong>k<sub>h</sub></strong>:</label>
+          <input type="number" id="kh"
+                 placeholder="Valor de Kh"
+                 formControlName="kh"
+                 autocomplete="off"/>
+        </div>
+      </div>
+      <button class="btn btn__outline" type="submit">Ingresar Datos</button>
+
+      <div class="container-error" *ngIf="this.hasError() || this.minimizationForm.invalid">
+        <p> {{this.minimizationDto | json}}</p>
+        <h3 *ngIf="this.minimizationForm.invalid">Debes ingresar todos los datos</h3>
+
+        <h3 *ngIf="this.errorConstraint.alfaConstrain">Estas incumpliendo la primera regla</h3>
+        <h3 *ngIf="this.errorConstraint.deltaConstrain">Estas incumpliendo la segunda regla</h3>
+        <h3 *ngIf="this.errorConstraint.phiConstrain">Estas incumpliendo la tercera regla</h3>
+        <h3 *ngIf="this.errorConstraint.alfaPrimeConstrain">Estas incumpliendo la cuarta regla</h3>
+        <h3 *ngIf="this.errorConstraint.piConstraint">Estas incumpliendo la quinta regla</h3>
+        <h3 *ngIf="this.errorConstraint.alfaAndDeltaConstrain">Estas incumpliendo la sexta regla</h3>
+        <h3 *ngIf="this.errorConstraint.sinKhCosConstrain">Estas incumpliendo la séptima regla</h3>
+      </div>
+    </form>
+  </section>
+</div>
