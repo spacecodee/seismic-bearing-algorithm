@@ -5,6 +5,10 @@ const routes: Routes = [
   {
     path: 'formulas',
     loadChildren: () => import('./view/modules/formulas/formulas.module').then(m => m.FormulasModule)
+  },
+  {
+    path: '**',
+    redirectTo: ''
   }
 ];
 
