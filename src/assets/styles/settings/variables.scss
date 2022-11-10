@@ -1,0 +1,31 @@
+//spacers
+$colum-gap-spacer: .5rem;
+$colum-gap-spacer-x2: 2rem;
+$colum-gap-spacer-x4: 4rem;
+$colum-gap-spacer-x8: 8rem;
+
+//fonts
+$poppins-font-family: 'Poppins', sans-serif;
+
+//type fonts
+$font-normal: 400;
+$font-medium: 500;
+$font-italic: italic;
+$font-bold: 700;
+$font-extra-bold: 900;
+
+//custom
+$line-height-9: 9rem;
+$line-height-4: 4rem;
+
+//colors
+$primary-color: #151515;
+$secondary-color: #3161f1;
+$tertiary-color: #efefef;
+$four-color: #dfe6f9;
+
+//colors with opacity
+$primary-opacity-color: rgba(21, 21, 21, 0.1);
+$secondary-opacity-color: rgba(49, 97, 241, 0.9);
+
+$background-all-color: radial-gradient(circle, rgba(232, 236, 248, 1) 0%, rgba(204, 227, 245, 1) 38%, rgba(232, 236, 248, 1) 100%);

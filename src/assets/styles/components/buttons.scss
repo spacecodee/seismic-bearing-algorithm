@@ -1,0 +1,97 @@
+@import '../settings/variables';
+
+button {
+  outline: none;
+  border: none;
+  cursor: pointer;
+  transition: 0.5s all;
+  font-family: $poppins-font-family;
+  font-weight: $font-medium;
+  color: $tertiary-color;
+}
+
+.btn {
+  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  font-size: 1.6rem;
+  background: $secondary-color;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn:hover {
+  background: $secondary-opacity-color;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn__header-center {
+  background: none;
+  color: $primary-color;
+}
+
+.btn__outline {
+  border-radius: 5rem;
+  padding: .7rem 2rem;
+  font-weight: $font-bold;
+  background: $tertiary-color;
+  color: $primary-color;
+  border: .1rem solid $primary-opacity-color;
+  box-shadow: .2rem .2rem .5rem -.3rem rgba(0, 0, 0, 0.38);
+}
+
+.btn__flat {
+  font-weight: $font-bold;
+  position: relative;
+  background: none;
+  color: $primary-color;
+
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 30%;
+    height: .2rem;
+    background: $primary-color;
+    margin: auto;
+    top: 3rem;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+.btn__header-center:hover {
+  background: none;
+  color: $secondary-color;
+}
+
+.btn__outline:hover {
+  background: $secondary-color;
+  color: $tertiary-color;
+}
+
+.btn__flat:hover {
+  background: none;
+  color: $secondary-color;
+
+  &::after {
+    background: $secondary-color;
+  }
+}
+
+.btn__login {
+  text-transform: uppercase;
+  min-width: 100%;
+  box-shadow: .5rem .5rem .8rem -.2rem rgba(49, 97, 241, 0.5);
+  padding: 1.5rem 2rem;
+  border-radius: .8rem;
+}
+
+.btn__login--disable,
+.btn__login--disable:hover {
+  cursor: auto;
+  background: $primary-color;
+  color: $tertiary-color;
+  box-shadow: .5rem .5rem .8rem -.2rem rgba(21, 21, 21, 0.5);
+}

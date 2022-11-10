@@ -1,0 +1,22 @@
+@import "./src/assets/styles/settings/variables";
+
+label {
+  font-family: $poppins-font-family;
+}
+
+input {
+  font-family: $poppins-font-family;
+  outline: none;
+  border: none;
+  padding: 1.5rem 2rem;
+  border-radius: .8rem;
+  min-width: 100%;
+}
+
+.login__field {
+  background-color: $four-color;
+}
+
+.invalid_field {
+  border: .1rem solid #e74a4a;
+}
